@@ -6,22 +6,8 @@
   imports = [
     <nix-bitcoin/modules/presets/secure-node.nix>
 
-    # FIXME: The hardened kernel profile improves security but
-    # decreases performance by ~50%.
-    # Turn it off when not needed.
-    <nix-bitcoin/modules/presets/hardened.nix>
-    #
-    # You can enable the hardened-extended preset instead to further improve security
-    # at the cost of functionality and performance.
-    # See the comments at the top of `hardened-extended.nix` for further details.
-    # <nix-bitcoin/modules/presets/hardened-extended.nix>
-
-    # FIXME: Uncomment the next line to import your hardware configuration. If so,
-    # add the hardware configuration file to the same directory as this file.
-    #./hardware-configuration.nix
+    ./hardware-configuration.nix
   ];
-  # FIXME: Enable modules by uncommenting their respective line. Disable
-  # modules by commenting out their respective line.
 
   ### BITCOIND
   # Bitcoind is enabled by default via secure-node.nix.
@@ -40,10 +26,13 @@
   # services.bitcoind.extraConfig = ''
   #   maxorphantx=110
   # '';
+  services.bitcoind.dataDir = "/ssd";
+
+  services.bitcoind.txindex = true;
 
   ### CLIGHTNING
   # Enable clightning, a Lightning Network implementation in C.
-  services.clightning.enable = true;
+  # services.clightning.enable = true;
   #
   # Set this to create an onion service by which clightning can accept incoming connections
   # via Tor.
@@ -285,8 +274,7 @@
   # a network-level as much as possible.
   # nix-bitcoin.netns-isolation.enable = true;
 
-  # FIXME: Define your hostname.
-  networking.hostName = "host";
+  networking.hostName = "beelink";
   time.timeZone = "UTC";
 
   services.openssh = {
@@ -295,30 +283,18 @@
   };
   users.users.root = {
     openssh.authorizedKeys.keys = [
-      # FIXME: Replace this with your SSH pubkey
-      "ssh-ed25519 AAAAC3..."
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOnEUs9uctH6i4pWCJh1t3Q+WpuVHLjd4KHhHD85VyJS"
     ];
   };
 
-  # FIXME: Uncomment this to allow the operator user to run
-  # commands as root with `sudo` or `doas`
-  # users.users.operator.extraGroups = [ "wheel" ];
+  users.users.operator.extraGroups = [ "wheel" ];
 
-  # FIXME: add packages you need in your system
   environment.systemPackages = with pkgs; [
-    vim
   ];
 
-  # FIXME: Add custom options (like boot options, output of
-  # nixos-generate-config, etc.):
+  services.tailscale.enable = true;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It's perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "23.05";
 
   # The nix-bitcoin release version that your config is compatible with.
   # When upgrading to a backwards-incompatible release, nix-bitcoin will display an
