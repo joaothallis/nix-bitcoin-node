@@ -119,7 +119,7 @@
   # Set this to enable mempool, a fully featured Bitcoin visualizer, explorer,
   # and API service.
   #
-  # services.mempool.enable = true;
+  services.mempool.enable = true;
   #
   # Possible options for the Electrum backend server:
   #
@@ -133,7 +133,7 @@
   #
   # Set this to create an onion service to make the mempool web interface
   # available via Tor:
-  # nix-bitcoin.onionServices.mempool-frontend.enable = true;
+  nix-bitcoin.onionServices.mempool-frontend.enable = true;
 
   ### ELECTRS
   # Set this to enable electrs, an Electrum server implemented in Rust.
