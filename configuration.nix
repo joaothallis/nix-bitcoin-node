@@ -21,6 +21,32 @@
   networking.hostName = "beelink";
   time.timeZone = "UTC";
 
+  services.prometheus.exporters.node = {
+    enable = true;
+    port = 9000;
+    enabledCollectors = [ "systemd" ];
+    extraFlags = [
+      "--collector.ethtool"
+      "--collector.softirqs"
+      "--collector.tcpstat"
+      "--collector.wifi"
+    ];
+  };
+
+  # http://beelink.tail49bf1.ts.net:9000/metrics
+  systemd.services.tailscale-funnel = {
+    description = "Tailscale Funnel Service";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+
+    serviceConfig = {
+      ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.prometheus.exporters.node.port}";
+      Restart = "on-failure";
+    };
+
+    wantedBy = [ "multi-user.target" ];
+  };
+
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
