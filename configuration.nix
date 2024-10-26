@@ -1,4 +1,10 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+{
   imports = [
     <nix-bitcoin/modules/presets/secure-node.nix>
 
@@ -27,8 +33,10 @@
 
   users.users.operator.extraGroups = [ "wheel" ];
 
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+    ];
 
   services.tailscale.enable = true;
 
