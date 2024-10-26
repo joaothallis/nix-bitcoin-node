@@ -47,6 +47,26 @@
     ];
   };
 
+  services.grafana = {
+    enable = true;
+    settings = {
+      server = {
+        http_addr = "0.0.0.0";
+        http_port = 9001;
+        serve_from_sub_path = true;
+      };
+    };
+  };
+
+  services.grafana.provision.datasources.settings.datasources = [
+    {
+      name = "Prometheus";
+      type = "prometheus";
+      access = "proxy";
+      url = "localhost:${toString config.services.prometheus.port}";
+    }
+  ];
+
   # http://beelink.tail49bf1.ts.net:9000/metrics
   systemd.services.tailscale-funnel-node-exporter = {
     description = "Tailscale Funnel Service";
@@ -69,6 +89,20 @@
 
     serviceConfig = {
       ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.prometheus.port}";
+      Restart = "on-failure";
+    };
+
+    wantedBy = [ "multi-user.target" ];
+  };
+
+  # http://beelink.tail49bf1.ts.net:9001
+  systemd.services.tailscale-funnel-grafana = {
+    description = "Tailscale Funnel Service";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+
+    serviceConfig = {
+      ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.grafana.settings.server.http_port}";
       Restart = "on-failure";
     };
 
