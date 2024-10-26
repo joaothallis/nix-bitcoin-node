@@ -71,7 +71,7 @@
       name = "Prometheus";
       type = "prometheus";
       access = "proxy";
-      url = "localhost:${toString config.services.prometheus.port}";
+      url = "http://127.0.0.1:${toString config.services.prometheus.port}";
     }
   ];
 
