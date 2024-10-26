@@ -33,14 +33,42 @@
     ];
   };
 
+  services.prometheus = {
+    enable = true;
+    scrapeConfigs = [
+      {
+        job_name = "node";
+        static_configs = [
+          {
+            targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+          }
+        ];
+      }
+    ];
+  };
+
   # http://beelink.tail49bf1.ts.net:9000/metrics
-  systemd.services.tailscale-funnel = {
+  systemd.services.tailscale-funnel-node-exporter = {
     description = "Tailscale Funnel Service";
     after = [ "network-online.target" ];
     wants = [ "network-online.target" ];
 
     serviceConfig = {
       ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.prometheus.exporters.node.port}";
+      Restart = "on-failure";
+    };
+
+    wantedBy = [ "multi-user.target" ];
+  };
+
+  # http://beelink.tail49bf1.ts.net:9090
+  systemd.services.tailscale-funnel-prometheus = {
+    description = "Tailscale Funnel Service";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+
+    serviceConfig = {
+      ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.prometheus.port}";
       Restart = "on-failure";
     };
 
