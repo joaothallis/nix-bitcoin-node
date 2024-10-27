@@ -44,14 +44,6 @@
           }
         ];
       }
-      {
-        job_name = "python-application";
-        static_configs = [
-          {
-            targets = [ "localhost:8000" ];
-          }
-        ];
-      }
     ];
   };
 
