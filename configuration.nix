@@ -67,48 +67,6 @@
     }
   ];
 
-  # http://beelink.tail49bf1.ts.net:9000/metrics
-  systemd.services.tailscale-funnel-node-exporter = {
-    description = "Tailscale Funnel Service";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-
-    serviceConfig = {
-      ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.prometheus.exporters.node.port}";
-      Restart = "on-failure";
-    };
-
-    wantedBy = [ "multi-user.target" ];
-  };
-
-  # http://beelink.tail49bf1.ts.net:9090
-  systemd.services.tailscale-funnel-prometheus = {
-    description = "Tailscale Funnel Service";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-
-    serviceConfig = {
-      ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.prometheus.port}";
-      Restart = "on-failure";
-    };
-
-    wantedBy = [ "multi-user.target" ];
-  };
-
-  # http://beelink.tail49bf1.ts.net:9001
-  systemd.services.tailscale-funnel-grafana = {
-    description = "Tailscale Funnel Service";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-
-    serviceConfig = {
-      ExecStart = "${pkgs.tailscale}/bin/tailscale funnel ${toString config.services.grafana.settings.server.http_port}";
-      Restart = "on-failure";
-    };
-
-    wantedBy = [ "multi-user.target" ];
-  };
-
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
