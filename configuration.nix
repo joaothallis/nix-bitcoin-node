@@ -79,10 +79,8 @@
 
   users.users.operator.extraGroups = [ "wheel" ];
 
-  environment.systemPackages =
-    with pkgs;
-    [
-    ];
+  environment.systemPackages = with pkgs; [
+  ];
 
   services.tailscale.enable = true;
 
