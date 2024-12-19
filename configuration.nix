@@ -26,10 +26,6 @@
     port = 9000;
     enabledCollectors = [ "systemd" ];
     extraFlags = [
-      "--collector.ethtool"
-      "--collector.softirqs"
-      "--collector.tcpstat"
-      "--collector.wifi"
     ];
   };
 
