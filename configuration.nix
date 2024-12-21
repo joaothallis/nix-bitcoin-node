@@ -23,6 +23,8 @@
 
   services.mempool.enable = true;
 
+  services.electrs.enable = true;
+
   nix-bitcoin.onionServices.mempool-frontend.enable = true;
 
   networking.hostName = "beelink";
