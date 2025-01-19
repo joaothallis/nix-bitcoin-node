@@ -14,13 +14,6 @@
 
   services.bitcoind.txindex = true;
 
-  services.lnd.enable = true;
-  nix-bitcoin.onionServices.lnd.public = true;
-
-  services.rtl.enable = true;
-  services.rtl.nodes.lnd.enable = true;
-  services.rtl.nodes.lnd.loop = true;
-
   services.mempool.enable = true;
 
   nix-bitcoin.onionServices.mempool-frontend.enable = true;
