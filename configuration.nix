@@ -45,26 +45,6 @@
     ];
   };
 
-  services.grafana = {
-    enable = true;
-    settings = {
-      server = {
-        http_addr = "0.0.0.0";
-        http_port = 9001;
-        serve_from_sub_path = true;
-      };
-    };
-  };
-
-  services.grafana.provision.datasources.settings.datasources = [
-    {
-      name = "Prometheus";
-      type = "prometheus";
-      access = "proxy";
-      url = "http://127.0.0.1:${toString config.services.prometheus.port}";
-    }
-  ];
-
   services.openssh = {
     enable = true;
     settings.PasswordAuthentication = false;
