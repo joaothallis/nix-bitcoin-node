@@ -71,8 +71,7 @@
   };
   users.users.root = {
     openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOnEUs9uctH6i4pWCJh1t3Q+WpuVHLjd4KHhHD85VyJS"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMQEcinZYgxenLx19NYoZ60d+7LE/GP/4PtKode/CgAE"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ8qXHy5C/9jorjd8l7TrcSQx6YeMG5G7wJTD8vO/Mg9"
     ];
   };
 
