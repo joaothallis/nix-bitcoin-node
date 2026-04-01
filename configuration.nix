@@ -11,14 +11,7 @@
     ./hardware-configuration.nix
   ];
   services.bitcoind.dataDir = "/ssd";
-
-  services.bitcoind.txindex = true;
-
-  services.mempool.enable = true;
-
-  nix-bitcoin.onionServices.mempool-frontend.enable = true;
-
-  services.electrs.enable = true;
+  services.bitcoind.prune = 550;
 
   networking.hostName = "beelink";
   time.timeZone = "UTC";
